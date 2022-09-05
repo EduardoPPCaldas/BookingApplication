@@ -2,7 +2,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Xunit;
 
-namespace DomainTests.Bookings;
+namespace DomainTests.BookingTest;
 
 public class UnitTest1
 {
