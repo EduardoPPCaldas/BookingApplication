@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220908015502_RoomsAndBooking")]
+    partial class RoomsAndBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,23 +35,13 @@ namespace Data.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("GuestId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("PlaceAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("Bookings");
                 });
@@ -96,69 +88,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Booking", b =>
-                {
-                    b.HasOne("Domain.Entities.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId");
-
-                    b.HasOne("Domain.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Guest");
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Guest", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjects.PersonId", "DocumentId", b1 =>
-                        {
-                            b1.Property<int>("GuestId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("DocumentType")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("IdNumber")
-                                .HasColumnType("text");
-
-                            b1.HasKey("GuestId");
-
-                            b1.ToTable("Guests");
-
-                            b1.WithOwner()
-                                .HasForeignKey("GuestId");
-                        });
-
-                    b.Navigation("DocumentId");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Room", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjects.Price", "Price", b1 =>
-                        {
-                            b1.Property<int>("RoomId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Currency")
-                                .HasColumnType("integer");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("numeric");
-
-                            b1.HasKey("RoomId");
-
-                            b1.ToTable("Rooms");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RoomId");
-                        });
-
-                    b.Navigation("Price");
                 });
 #pragma warning restore 612, 618
         }
