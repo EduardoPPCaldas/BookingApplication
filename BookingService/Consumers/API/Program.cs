@@ -1,9 +1,17 @@
+using Application;
+using Application.Guests.Ports;
 using Data;
+using Data.Guests;
+using Domain.Ports;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+#region IoC 
+builder.Services.AddScoped<IGuestManager, GuestManager>();
+builder.Services.AddScoped<IGuestRepository, GuestRepository>();
+#endregion
 
 #region DB wiring up
 var connectionString = builder.Configuration.GetConnectionString("Main");
