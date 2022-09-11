@@ -40,6 +40,21 @@ namespace API.Controllers
             {
                 return BadRequest(res);
             }
+            
+            if(res.ErrorCode == ErrorCodes.INVALID_EMAIL)
+            {
+                return BadRequest(res);
+            }
+
+            if(res.ErrorCode == ErrorCodes.INVALID_PERSON_ID)
+            {
+                return BadRequest(res);
+            }
+
+            if(res.ErrorCode == ErrorCodes.MISSING_REQUIRED_INFORMATION)
+            {
+                return BadRequest(res);
+            }
 
             _logger.LogError("Response with unknown error code", res);
             return BadRequest(500);
