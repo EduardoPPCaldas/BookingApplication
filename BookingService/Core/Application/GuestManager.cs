@@ -55,7 +55,7 @@ public class GuestManager : IGuestManager
             return new GuestResponse
             {
                 Success = false,
-                ErrorCode = ErrorCodes.COULD_NOT_STORE_DATA,
+                ErrorCode = ErrorCodes.MISSING_REQUIRED_INFORMATION,
                 Message = "Missing required fields"
             };
         }

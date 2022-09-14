@@ -23,7 +23,7 @@ namespace Application.Guests.DTOs
             {
                 Id = guestDTO.Id,
                 Name = guestDTO.Name,
-                Surname = guestDTO.Name,
+                Surname = guestDTO.Surname,
                 Email = guestDTO.Email,
                 DocumentId = new Domain.ValueObjects.PersonId
                 {
