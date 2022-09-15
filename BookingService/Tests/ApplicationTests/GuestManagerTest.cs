@@ -3,13 +3,15 @@ using Application;
 using Application.Guests.DTOs;
 using Application.Guests.Requests;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Ports;
+using Domain.ValueObjects;
 using Moq;
 using Xunit;
 
 namespace ApplicationTests;
 
-public class ApplicationTest
+public class GuestManagerTest
 {
     [Fact]
     public async Task HappyPath()
@@ -98,5 +100,46 @@ public class ApplicationTest
         Assert.False(res.Success);
         Assert.Equal(ErrorCodes.MISSING_REQUIRED_INFORMATION, res.ErrorCode);
         Assert.Equal("Missing required fields", res.Message);
+    }
+
+    [Fact]
+    public async Task Should_Return_Guest_Success()
+    {
+        var fakeRepo = new Mock<IGuestRepository>();
+
+        var fakeGuest = new Guest
+        {
+            Id = 333,
+            Name = "Test",
+            DocumentId = new PersonId
+            {
+                DocumentType = DocumentType.DriverLicense,
+                IdNumber = "123"
+            }
+        };
+
+        fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest>(fakeGuest));
+        var guestManager = new GuestManager(fakeRepo.Object);
+
+        var res = await guestManager.GetGuest(333);
+
+        Assert.NotNull(res);
+        Assert.True(res.Success);
+    }
+
+    [Fact]
+    public async Task Should_Return_GuestNotFound_When_GuestDoesntExists()
+    {
+        var fakeRepo = new Mock<IGuestRepository>();
+
+        fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(null));
+        var guestManager = new GuestManager(fakeRepo.Object);
+
+        var res = await guestManager.GetGuest(333);
+
+        Assert.NotNull(res);
+        Assert.False(res.Success);
+        Assert.Equal(ErrorCodes.GUEST_NOT_FOUND, res.ErrorCode);
+        Assert.Equal("Could not found guest with given Id", res.Message);
     }
 }

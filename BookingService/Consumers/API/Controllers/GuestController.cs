@@ -38,7 +38,7 @@ namespace API.Controllers
 
             if(res.ErrorCode == ErrorCodes.NOT_FOUND)
             {
-                return BadRequest(res);
+                return NotFound(res);
             }
             
             if(res.ErrorCode == ErrorCodes.INVALID_EMAIL)
@@ -58,6 +58,16 @@ namespace API.Controllers
 
             _logger.LogError("Response with unknown error code", res);
             return BadRequest(500);
+        }
+
+        [HttpGet("{guestId}")]
+        public async Task<ActionResult<GuestDTO>> Get(int guestId)
+        {
+            var res = await _guestManager.GetGuest(guestId);
+
+            if (res.Success) return Ok(res.Data);
+
+            return NotFound(res);
         }
     }
 }
