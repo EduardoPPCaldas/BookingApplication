@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Exceptions;
+using Domain.Ports;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
@@ -31,6 +33,26 @@ namespace Domain.Entities
             get
             {
                 return true;
+            }
+        }
+        private void ValidateState()
+        {
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                throw new MissingRequiredInformationException();
+            }
+        }
+        public async Task Save(IRoomRepository roomRepository)
+        {
+            ValidateState();
+            if(this.Id == 0)
+            {
+                this.Id = await roomRepository.Create(this);
+            }
+            else 
+            {
+                // await guestRepository.Update(this);
             }
         }
     }

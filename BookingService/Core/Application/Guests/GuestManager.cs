@@ -5,7 +5,7 @@ using Application.Guests.Responses;
 using Domain.Exceptions;
 using Domain.Ports;
 
-namespace Application;
+namespace Application.Guests;
 public class GuestManager : IGuestManager
 {
     private IGuestRepository _guestRepository;

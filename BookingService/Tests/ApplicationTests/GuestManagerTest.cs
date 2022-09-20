@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Application;
+using Application.Guests;
 using Application.Guests.DTOs;
 using Application.Guests.Requests;
 using Domain.Entities;
