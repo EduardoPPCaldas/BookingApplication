@@ -35,6 +35,14 @@ namespace Application.Guests.DTOs
 
         public static GuestDTO MapToDTO(Guest guest)
         {
+            if(guest.DocumentId == null)
+            {
+                guest.DocumentId = new PersonId
+                {
+                    DocumentType = DocumentType.DriverLicense,
+                    IdNumber = "Add Id Number"
+                };
+            }
             return new GuestDTO
             {
                 Id = guest.Id,

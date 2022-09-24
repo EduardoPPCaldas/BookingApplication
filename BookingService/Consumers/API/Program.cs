@@ -1,8 +1,11 @@
+using Application.Bookings;
+using Application.Bookings.Ports;
 using Application.Guests;
 using Application.Guests.Ports;
 using Application.Rooms;
 using Application.Rooms.Ports;
 using Data;
+using Data.Bookings;
 using Data.Guests;
 using Data.Rooms;
 using Domain.Ports;
@@ -17,6 +20,9 @@ builder.Services.AddScoped<IGuestRepository, GuestRepository>();
 
 builder.Services.AddScoped<IRoomManager, RoomManager>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingManager, BookingManager>();
 #endregion
 
 #region DB wiring up

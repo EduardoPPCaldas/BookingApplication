@@ -30,7 +30,7 @@ public class GuestManager : IGuestManager
                     Success = true
                 };
             }
-            throw new MissingFieldException();
+            throw new MissingRequiredInformationException();
         }
         catch (InvalidPersonDocumentIdException)
         {

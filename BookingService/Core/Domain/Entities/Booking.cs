@@ -1,4 +1,6 @@
 using Domain.Enums;
+using Domain.Exceptions;
+using Domain.Ports;
 using Action = Domain.Enums.Action;
 
 namespace Domain.Entities
@@ -29,6 +31,27 @@ namespace Domain.Entities
                 (Status.Canceled, Action.Reopen) => Status.Created,
                 _ => this.Status
             };
+        }
+
+        public async Task Save(IBookingRepository bookingRepository)
+        {
+            this.ValidateState();
+            if(this.Id == 0)
+            {
+                await bookingRepository.Create(this);
+            }
+            else
+            {
+                // await bookingRepository.Update(this);
+            }
+        }
+
+        private void ValidateState()
+        {
+            if (Room == null || Guest == null)
+            {
+                throw new MissingRequiredInformationException();
+            }
         }
     }
 }
