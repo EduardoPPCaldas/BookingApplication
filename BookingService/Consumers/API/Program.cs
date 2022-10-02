@@ -2,6 +2,7 @@ using Application.Bookings;
 using Application.Bookings.Ports;
 using Application.Guests;
 using Application.Guests.Ports;
+using Application.Payments;
 using Application.Rooms;
 using Application.Rooms.Ports;
 using Data;
@@ -10,6 +11,7 @@ using Data.Guests;
 using Data.Rooms;
 using Domain.Ports;
 using Microsoft.EntityFrameworkCore;
+using PaymentService.Application.MercadoPago;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingManager, BookingManager>();
+
+builder.Services.AddScoped<IMercadoPagoPaymentService, MercadoPagoAdapter>();
 #endregion
 
 #region DB wiring up

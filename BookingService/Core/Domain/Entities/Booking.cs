@@ -36,7 +36,12 @@ namespace Domain.Entities
         public async Task Save(IBookingRepository bookingRepository)
         {
             this.ValidateState();
-            if(this.Id == 0)
+            if(Guest == null)
+            {
+                throw new MissingRequiredInformationException();
+            }
+            
+            if(this.Id == 0 && this.Guest.IsValid())
             {
                 await bookingRepository.Create(this);
             }

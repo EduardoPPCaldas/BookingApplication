@@ -22,6 +22,10 @@ namespace Application
         ROOM_INVALID_PERSON_ID = 102,
         ROOM_MISSING_REQUIRED_INFORMATION = 103,
         ROOM_INVALID_EMAIL = 104,
+
+        // Payment related codes 500 - 1000
+        PAYMENTS_INVALID_PAYMENT_INTENTION = 500
+
     }
     public abstract class Response
     {
