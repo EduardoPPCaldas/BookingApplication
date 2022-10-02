@@ -8,17 +8,13 @@ using Application.Payments.DTOs;
 using Application.Payments.Enums;
 using Application.Payments.Responses;
 using Application;
+using Application.Payments.Ports;
 
 namespace PaymentService.Application.MercadoPago;
 
-public class MercadoPagoAdapter : IMercadoPagoPaymentService
+public class MercadoPagoAdapter : IPaymentProcessor
 {
-    public Task<PaymentResponse> PayWithCreditCard(string paymentIntention)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<PaymentResponse> PayWithDebitCard(string paymentIntention)
+    public Task<PaymentResponse> CapturePayment(string paymentIntention)
     {
         try
         {
@@ -59,10 +55,5 @@ public class MercadoPagoAdapter : IMercadoPagoPaymentService
             };
             return Task.FromResult(response);
         }
-    }
-
-    public Task<PaymentResponse> PayWithTransfer(string paymentIntention)
-    {
-        throw new NotImplementedException();
     }
 }

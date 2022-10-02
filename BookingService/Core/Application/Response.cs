@@ -24,7 +24,8 @@ namespace Application
         ROOM_INVALID_EMAIL = 104,
 
         // Payment related codes 500 - 1000
-        PAYMENTS_INVALID_PAYMENT_INTENTION = 500
+        PAYMENTS_INVALID_PAYMENT_INTENTION = 500,
+        PAYMENTS_PAYMENT_PROVIDER_NOT_IMPLEMENTED = 501
 
     }
     public abstract class Response

@@ -6,6 +6,10 @@ using Application.Bookings.DTOs;
 using Application.Bookings.Ports;
 using Application.Bookings.Requests;
 using Application.Bookings.Responses;
+using Application.Payments;
+using Application.Payments.Ports;
+using Application.Payments.Requests;
+using Application.Payments.Responses;
 using Domain.Exceptions;
 using Domain.Ports;
 
@@ -14,9 +18,13 @@ namespace Application.Bookings;
 public class BookingManager : IBookingManager
 {
     private readonly IBookingRepository _bookingRepository;
-    public BookingManager(IBookingRepository bookingRepository)
+    private readonly IPaymentProcessorFactory _paymentProcessorFactory;
+    public BookingManager(IBookingRepository bookingRepository,
+        IPaymentProcessorFactory paymentProcessorFactory
+    )
     {
         _bookingRepository = bookingRepository;
+        _paymentProcessorFactory = paymentProcessorFactory;
     }
     public async Task<BookingResponse> CreateBooking(CreateBookingRequest request)
     {
@@ -45,5 +53,24 @@ public class BookingManager : IBookingManager
                 Message = "Missing required information"
             };
         }
+    }
+
+    public async Task<PaymentResponse> PayForBooking(CreatePaymentRequest request)
+    {
+        var paymentProcessor = _paymentProcessorFactory.GetPaymentProcessor(request.SelectedPaymentProvider);      
+
+        request.PaymentIntention = request.PaymentIntention ?? "";   
+
+        var response = await paymentProcessor.CapturePayment(request.PaymentIntention);
+        if (response.Success)
+        {
+            return new PaymentResponse
+            {
+                Success = true,
+                Data = response.Data,
+                Message = "Payment successfully processed"
+            };
+        }
+        return response;
     }
 }
