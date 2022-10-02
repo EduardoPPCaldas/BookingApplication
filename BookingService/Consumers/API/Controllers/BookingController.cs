@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application;
+using Application.Bookings.Commands;
 using Application.Bookings.DTOs;
 using Application.Bookings.Ports;
 using Application.Bookings.Requests;
 using Application.Payments.DTOs;
 using Application.Payments.Requests;
 using Application.Payments.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -18,19 +20,24 @@ namespace API.Controllers;
 public class BookingController : ControllerBase
 {
     private readonly IBookingManager _bookingManager;
-    public BookingController(IBookingManager bookingManager)
+    private readonly IMediator _mediator;
+    public BookingController(IBookingManager bookingManager,
+        IMediator mediator
+    )
     {
         _bookingManager = bookingManager;
+        _mediator = mediator;
     }
 
     [HttpPost]
     public async Task<ActionResult<BookingDTO>> Post(BookingDTO bookingDTO)
     {
-        var request = new CreateBookingRequest
+        var command = new CreateBookingCommand
         {
-            Data = bookingDTO
+            bookingDTO = bookingDTO
         };
-        var res = await _bookingManager.CreateBooking(request);
+        var res = await _mediator.Send(command);
+
         if(res.Success) return Created("", res.Data);
         if(res.ErrorCode == ErrorCodes.MISSING_REQUIRED_INFORMATION) return BadRequest(res);
         return BadRequest(500);

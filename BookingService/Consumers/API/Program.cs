@@ -11,6 +11,7 @@ using Data.Bookings;
 using Data.Guests;
 using Data.Rooms;
 using Domain.Ports;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.Application;
 using PaymentService.Application.MercadoPago;
@@ -40,6 +41,7 @@ builder.Services.AddDbContext<HotelDbContext>(
 #endregion
 
 builder.Services.AddControllers();
+builder.Services.AddMediatR(typeof(BookingManager));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
