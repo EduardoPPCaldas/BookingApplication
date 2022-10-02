@@ -32,4 +32,17 @@ public class RoomDTO
             }
         };
     }
+
+    public static RoomDTO MapToDto(Room room)
+    {
+        return new RoomDTO
+        {
+            Currency = room.Price.Currency,
+            Id = room.Id,
+            InMaintenance = room.InMaintenance,
+            Level = room.Level,
+            Name = room.Name,
+            Value = room.Price.Value
+        };
+    }
 }

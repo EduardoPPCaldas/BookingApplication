@@ -23,6 +23,9 @@ namespace Application
         ROOM_MISSING_REQUIRED_INFORMATION = 103,
         ROOM_INVALID_EMAIL = 104,
 
+        // Booking related codes 200 - 300
+        BOOKING_NOT_FOUND = 200,
+
         // Payment related codes 500 - 1000
         PAYMENTS_INVALID_PAYMENT_INTENTION = 500,
         PAYMENTS_PAYMENT_PROVIDER_NOT_IMPLEMENTED = 501

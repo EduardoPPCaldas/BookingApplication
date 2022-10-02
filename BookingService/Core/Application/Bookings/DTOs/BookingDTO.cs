@@ -36,4 +36,17 @@ public class BookingDTO
         }
         throw new MissingRequiredInformationException();
     }
+
+    public static BookingDTO MapToDTO(Booking booking)
+    {
+        return new BookingDTO
+        {
+            End = booking.End,
+            Guest = GuestDTO.MapToDTO(booking.Guest),
+            Id = booking.Id,
+            PlaceAt = booking.PlaceAt,
+            Room = RoomDTO.MapToDto(booking.Room),
+            Start = booking.Start
+        };
+    }
 }

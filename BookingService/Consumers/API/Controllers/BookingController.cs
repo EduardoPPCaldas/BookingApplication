@@ -6,7 +6,9 @@ using Application;
 using Application.Bookings.Commands;
 using Application.Bookings.DTOs;
 using Application.Bookings.Ports;
+using Application.Bookings.Queries;
 using Application.Bookings.Requests;
+using Application.Bookings.Responses;
 using Application.Payments.DTOs;
 using Application.Payments.Requests;
 using Application.Payments.Responses;
@@ -53,6 +55,21 @@ public class BookingController : ControllerBase
         var res = await _bookingManager.PayForBooking(createPaymentRequest);
 
         if (res.Success) return Created("", res);
+
+        return BadRequest(res);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<BookingResponse>> Get(int id)
+    {
+        var query = new GetBookingQuery
+        {
+            Id = id
+        };
+        var res = await _mediator.Send(query);
+        if(res.Success) return Ok(res.Data);
+
+        if(res.ErrorCode == ErrorCodes.BOOKING_NOT_FOUND) return NotFound(res);
 
         return BadRequest(res);
     }

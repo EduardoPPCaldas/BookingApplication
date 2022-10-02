@@ -9,4 +9,6 @@ namespace Domain.Ports;
 public interface IBookingRepository
 {
     Task<int> Create(Booking booking);
+
+    Task<Booking> Get(int id);
 }
